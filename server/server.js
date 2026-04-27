@@ -15,6 +15,15 @@ app.use(express.static(path.join(__dirname, 'files')));
    This endpoint returns a sorted array of all the genres of the movies
    that are currently in the movie model.
 */
+app.get('/genres', (req, res) => {
+    let movies = Object.values(movieModel);
+    let genres = [...new Set(
+        movies.flatMap(movie => movie.Genres)
+    )].sort();
+
+    res.json(genres);
+})
+
 
 /* Task 1.4: Extend the GET /movies endpoint:
    When a query parameter for a specific genre is given, 
@@ -23,7 +32,7 @@ app.use(express.static(path.join(__dirname, 'files')));
 app.get('/movies', function (req, res) {
   let movies = Object.values(movieModel)
   res.send(movies);
-})
+});
 
 // Configure a 'get' endpoint for a specific movie
 app.get('/movies/:imdbID', function (req, res) {
